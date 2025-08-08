@@ -1,31 +1,37 @@
 @echo off
-title WEBP to JPG Converter
-color 0A
-
-:: Check for ffmpeg
-ffmpeg -version >nul 2>&1
+REM Check if ffmpeg is available
+where ffmpeg >nul 2>&1
 if errorlevel 1 (
-    echo ffmpeg is not installed or not in PATH.
-    pause
-    exit /b
+    echo ffmpeg is not installed or not in PATH. Please install it first.
+    exit /b 1
 )
 
-:: Check if there are any .webp files
-dir /b *.webp >nul 2>&1
-if errorlevel 1 (
+REM Check for .webp files in current directory
+setlocal enabledelayedexpansion
+set count=0
+
+for %%f in (*.webp) do (
+    set /a count+=1
+)
+
+if %count%==0 (
     echo No .webp files found in the current directory.
-    pause
-    exit /b
+    exit /b 1
 )
 
-:: Loop through all .webp files in the current directory
-for %%F in (*.webp) do (
-    set "input=%%F"
-    set "output=%%~nF.jpg"
-    echo [+] Converting %%F to %%~nF.jpg...
-    ffmpeg -y -i "%%F" "%%~nF.jpg" >nul 2>&1
+REM Process each .webp file
+for %%f in (*.webp) do (
+    set "file=%%f"
+    set "jpg=%%~nf.jpg"
+    echo [+] Converting %%f to !jpg!...
+    ffmpeg -loglevel error -i "%%f" "!jpg!"
+    if exist "!jpg!" (
+        del /f "%%f"
+        echo [✓] Converted and removed %%f
+    ) else (
+        echo [!] Failed to convert %%f
+    )
 )
 
 echo.
-echo [✓] Done.
-pause
+echo [✓] All .webp files processed.
