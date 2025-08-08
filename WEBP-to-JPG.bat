@@ -1,25 +1,31 @@
 @echo off
-title WEBP to JPG Converter - Batch
+title WEBP to JPG Converter
 color 0A
 
-:: Check if ffmpeg exists in PATH
+:: Check for ffmpeg
 ffmpeg -version >nul 2>&1
 if errorlevel 1 (
-    echo [ERROR] ffmpeg is not installed or not in PATH.
-    echo Download from: https://www.gyan.dev/ffmpeg/builds/
+    echo ffmpeg is not installed or not in PATH.
     pause
     exit /b
 )
 
-echo [+] Converting all .webp images in: %cd%
-echo.
+:: Check if there are any .webp files
+dir /b *.webp >nul 2>&1
+if errorlevel 1 (
+    echo No .webp files found in the current directory.
+    pause
+    exit /b
+)
 
 :: Loop through all .webp files in the current directory
 for %%F in (*.webp) do (
-    echo Converting: %%F
-    ffmpeg -y -i "%%F" "%%~nF.jpg"
+    set "input=%%F"
+    set "output=%%~nF.jpg"
+    echo [+] Converting %%F to %%~nF.jpg...
+    ffmpeg -y -i "%%F" "%%~nF.jpg" >nul 2>&1
 )
 
 echo.
-echo [✓] All conversions complete.
+echo [✓] Done.
 pause
