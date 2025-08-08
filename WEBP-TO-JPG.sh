@@ -1,34 +1,30 @@
-@echo off
-title WEBP to JPG Converter and Cleaner
-color 0A
+#!/bin/bash
 
-:: Check for ffmpeg
-ffmpeg -version >nul 2>&1
-if errorlevel 1 (
-    echo ffmpeg is not installed or not in PATH.
-    pause
-    exit /b
-)
+# Check if ffmpeg is installed
+if ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "ffmpeg is not installed or not in PATH. Please install it first."
+    exit 1
+fi
 
-:: Process each .webp file in current folder
-for %%F in (*.webp) do (
-    set "file=%%F"
-    set "base=%%~nF"
+# Find .webp files in current directory
+webp_files=( *.webp )
 
-    call :ConvertAndDelete
-)
+if [ ! -e "${webp_files[0]}" ]; then
+    echo "No .webp files found in the current directory."
+    exit 1
+fi
 
-echo All done!
-pause
-exit /b
+for file in "${webp_files[@]}"; do
+    jpg="${file%.webp}.jpg"
+    echo "[+] Converting $file to $jpg..."
+    ffmpeg -loglevel error -i "$file" "$jpg"
+    if [ -f "$jpg" ]; then
+        rm -f "$file"
+        echo "[✓] Converted and removed $file"
+    else
+        echo "[!] Failed to convert $file"
+    fi
+done
 
-:ConvertAndDelete
-:: Convert to JPG
-ffmpeg -y -i "%file%" "%base%.jpg" >nul 2>&1
-if errorlevel 1 (
-    echo Failed to convert: %file%
-) else (
-    del "%file%"
-    echo Converted and removed: %file%
-)
-exit /b
+echo
+echo "[✓] All .webp files processed."
