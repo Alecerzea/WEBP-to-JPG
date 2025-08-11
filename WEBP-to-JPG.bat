@@ -1,10 +1,4 @@
 @echo off
-REM Check if ffmpeg is available
-where ffmpeg >nul 2>&1
-if errorlevel 1 (
-    echo ffmpeg is not installed or not in PATH. Please install it first.
-    exit /b 1
-)
 
 REM Check for .webp files in current directory
 setlocal enabledelayedexpansion

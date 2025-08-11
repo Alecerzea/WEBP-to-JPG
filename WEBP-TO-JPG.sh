@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check if ffmpeg is installed
-if ! command -v ffmpeg >/dev/null 2>&1; then
-    echo "ffmpeg is not installed or not in PATH. Please install it first."
-    exit 1
-fi
-
 # Find .webp files in current directory
 webp_files=( *.webp )
 

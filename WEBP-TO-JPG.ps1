@@ -1,9 +1,3 @@
-# Check for ffmpeg
-if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
-    Write-Host "ffmpeg is not installed or not in PATH. Please install it first."
-    exit
-}
-
 # Get all .webp files in the current directory
 $webpFiles = Get-ChildItem -Path . -Filter *.webp
 
