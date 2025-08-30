@@ -34,4 +34,4 @@ foreach ($file in $webpFiles) {
     }
 }
 
-Write-Host "`n[✓] All .webp files processed recursively."
+Write-Host "`n[✓] All .webp files processed."
