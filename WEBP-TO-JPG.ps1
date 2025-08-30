@@ -1,4 +1,3 @@
-# Check if ffmpeg is installed
 if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
     Write-Host "[!] ffmpeg is not installed. Installing with winget..."
     winget install -e --id Gyan.FFmpeg
@@ -10,10 +9,8 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
     }
 }
 
-# Get the directory from which the script is launched
 $baseDir = Get-Location
 
-# Get all .webp files recursively
 $webpFiles = Get-ChildItem -Path $baseDir -Filter *.webp -File -Recurse
 
 if ($webpFiles.Count -eq 0) {
@@ -21,7 +18,6 @@ if ($webpFiles.Count -eq 0) {
     exit
 }
 
-# Convert each file
 foreach ($file in $webpFiles) {
     $jpgPath = [System.IO.Path]::ChangeExtension($file.FullName, ".jpg")
     Write-Host "[+] Converting $($file.FullName) to $jpgPath..."
