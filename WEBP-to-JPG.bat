@@ -15,7 +15,7 @@ if errorlevel 1 (
     )
 )
 
-REM Find all .webp files recursively
+REM Find all .webp files 
 set "count=0"
 for /r %%f in (*.webp) do (
     set "file=%%f"
