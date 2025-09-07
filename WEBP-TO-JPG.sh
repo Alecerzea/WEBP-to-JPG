@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Check for ffmpeg
-if ! command -v ffmpeg >/dev/null 2>&1; then
-    echo "[!] ffmpeg is not installed."
-    echo "Please install ffmpeg manually (e.g., sudo apt install ffmpeg or brew install ffmpeg)"
-    exit 1
-fi
-
 # Find .webp files
 mapfile -t webp_files < <(find . -type f -iname "*.webp")
 
