@@ -1,10 +1,10 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Check if ffmpeg is installed
+REM Check for ffmpeg
 where ffmpeg >nul 2>&1
 if errorlevel 1 (
-    echo [!] ffmpeg is not installed. Installing with winget...
+    echo [!] ffmpeg not found. Installing with winget...
     winget install -e --id Gyan.FFmpeg
     where ffmpeg >nul 2>&1
     if errorlevel 1 (
@@ -15,10 +15,9 @@ if errorlevel 1 (
     )
 )
 
-REM Find all .webp files 
+REM Check for .webp files
 set "count=0"
 for /r %%f in (*.webp) do (
-    set "file=%%f"
     set /a count+=1
 )
 
@@ -27,7 +26,7 @@ if !count! EQU 0 (
     exit /b 1
 )
 
-REM Convert each file
+REM Convert each .webp file to .jpg
 for /r %%f in (*.webp) do (
     set "file=%%f"
     set "jpg=%%~dpnf.jpg"
