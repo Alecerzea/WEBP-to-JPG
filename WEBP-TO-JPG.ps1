@@ -1,15 +1,3 @@
-# Check for ffmpeg
-if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
-    Write-Host "[!] ffmpeg is not installed. Installing with winget..."
-    winget install -e --id Gyan.FFmpeg
-    if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
-        Write-Host "[✗] Failed to install ffmpeg. Aborting."
-        exit 1
-    } else {
-        Write-Host "[✓] ffmpeg installed successfully."
-    }
-}
-
 # Get all .webp files recursively
 $webpFiles = Get-ChildItem -Recurse -Filter *.webp -File
 
@@ -30,5 +18,3 @@ foreach ($file in $webpFiles) {
         Write-Host "[!] Failed to convert $($file.FullName)"
     }
 }
-
-Write-Host "`n[✓] All .webp files processed."
