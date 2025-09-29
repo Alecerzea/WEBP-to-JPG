@@ -1,20 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Check for ffmpeg
-where ffmpeg >nul 2>&1
-if errorlevel 1 (
-    echo [!] ffmpeg not found. Installing with winget...
-    winget install -e --id Gyan.FFmpeg
-    where ffmpeg >nul 2>&1
-    if errorlevel 1 (
-        echo [✗] Failed to install ffmpeg. Aborting.
-        exit /b 1
-    ) else (
-        echo [✓] ffmpeg installed successfully.
-    )
-)
-
 REM Check for .webp files
 set "count=0"
 for /r %%f in (*.webp) do (
@@ -39,6 +25,3 @@ for /r %%f in (*.webp) do (
         echo [!] Failed to convert %%f
     )
 )
-
-echo.
-echo [✓] All .webp files processed recursively.
