@@ -20,6 +20,3 @@ for file in "${webp_files[@]}"; do
         echo "[!] Failed to convert $file"
     fi
 done
-
-echo
-echo "[✓] All .webp files processed."
